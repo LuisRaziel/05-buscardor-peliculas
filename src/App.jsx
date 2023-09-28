@@ -1,10 +1,10 @@
 import './App.css'
+import { Movies } from './components/Movies'
 import mocksResult from './mocks/results.json'
-import { ListOfMovies, NoResults } from './components/Movies'
+// import { ListOfMovies, NoResults } from './components/Movies'
 
 function App() {
   const movies = mocksResult.Search
-  const hasMovies = movies?.length > 0
 
   // Se podría hacer también de esta forma pero lo mejor sería que fueran componentes
   // ya que su funcion principal es renderizar algo
@@ -55,8 +55,11 @@ function App() {
         )} */
           // hasMovies ? renderMovies() : renderNoResult()
 
-          hasMovies ? <ListOfMovies movies={movies} /> : <NoResults />
+          // tambien podemos dejar que esta logica se realice dentro del componente Movies.jsx 
+          // para aqui solo renderizar el componente resultante
+          // hasMovies ? <ListOfMovies movies={movies} /> : <NoResults />
         }
+        <Movies movies={movies} />
       </main>
     </div>
   )

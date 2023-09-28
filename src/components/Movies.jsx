@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export function ListOfMovies({ movies }) {
+function ListOfMovies({ movies }) {
   return (
     <ul className='movies'>
       {movies.map((movie) => (
@@ -13,6 +13,11 @@ export function ListOfMovies({ movies }) {
   )
 }
 
-export function NoResults() {
+function NoResults() {
   return <p className='movies-error'>No se encontraron resultados</p>
+}
+
+export function Movies({ movies }) {
+  const hasMovies = movies?.length > 0
+  return <>{hasMovies ? <ListOfMovies movies={movies} /> : <NoResults />}</>
 }
