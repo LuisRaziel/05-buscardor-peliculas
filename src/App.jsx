@@ -1,11 +1,10 @@
+import { useRef } from 'react'
 import './App.css'
 import { Movies } from './components/Movies'
-import mocksResult from './mocks/results.json'
+import { useMovies } from './hooks/Movies'
 // import { ListOfMovies, NoResults } from './components/Movies'
 
 function App() {
-  const movies = mocksResult.Search
-
   // Se podría hacer también de esta forma pero lo mejor sería que fueran componentes
   // ya que su funcion principal es renderizar algo
   // const renderMovies = () =>{
@@ -27,12 +26,30 @@ function App() {
   //     <p className='movies-error'>No se encontraron resultados</p>
   //   )}
 
+  const { movies } = useMovies()
+  const inputRef = useRef()
+
+  // para usar con el evento onClick en boton 
+  // const handleClick = (e) => {
+  //   e.preventDefault()
+  //   const valor = inputRef.current.value
+  //   console.log(valor)
+  // }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const valor = inputRef.current.value
+    console.log(valor)
+  }
+
   return (
     <div className='page'>
       <header>
         <h1>Buscador de Peliculas</h1>
-        <form className='form'>
-          <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' />
+        <form className='form' onSubmit={handleSubmit}>
+          <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' ref={inputRef}/>
+          {/* una buena practica es que al tener un form se use el evento onSubmit en lugar de onClick */}
+          {/* <button type='submit' onClick={handleClick}>Buscar</button> */}
           <button type='submit'>Buscar</button>
         </form>
       </header>
@@ -54,8 +71,7 @@ function App() {
           <p className='movies-error'>No se encontraron resultados</p>
         )} */
           // hasMovies ? renderMovies() : renderNoResult()
-
-          // tambien podemos dejar que esta logica se realice dentro del componente Movies.jsx 
+          // tambien podemos dejar que esta logica se realice dentro del componente Movies.jsx
           // para aqui solo renderizar el componente resultante
           // hasMovies ? <ListOfMovies movies={movies} /> : <NoResults />
         }
