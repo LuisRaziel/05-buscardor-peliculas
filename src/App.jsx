@@ -27,7 +27,7 @@ function App() {
   //   )}
 
   const { movies } = useMovies()
-  const inputRef = useRef()
+  // const inputRef = useRef()
 
   // para usar con el evento onClick en boton 
   // const handleClick = (e) => {
@@ -38,8 +38,14 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const valor = inputRef.current.value
-    console.log(valor)
+    // const valor = inputRef.current.value
+    // otra forma de recuperar este valor es con el evento onSubmit nativo de los formularios
+    // para no depender de React y para no tener que agregar demasiadas referencias
+    const fields = new window.FormData(e.target)
+    const valor = fields.get('searcher')
+    // cuando se tienen más de un input, por ejemplo, es mejor hacer un objeto
+    const inputs = Object.fromEntries(fields)
+    console.log({ valor, inputs})
   }
 
   return (
@@ -47,7 +53,8 @@ function App() {
       <header>
         <h1>Buscador de Peliculas</h1>
         <form className='form' onSubmit={handleSubmit}>
-          <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' ref={inputRef}/>
+          {/* <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' ref={inputRef}/> */}
+          <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' name='searcher'/>
           {/* una buena practica es que al tener un form se use el evento onSubmit en lugar de onClick */}
           {/* <button type='submit' onClick={handleClick}>Buscar</button> */}
           <button type='submit'>Buscar</button>
