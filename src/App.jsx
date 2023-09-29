@@ -1,4 +1,5 @@
 // import { useRef } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/Movies'
@@ -28,8 +29,10 @@ function App() {
 
   const { movies } = useMovies()
   // const inputRef = useRef()
+  // se crea un estado para asigarle el valor del input y usar form de forma controlada
+  const [query, setQuery] = useState()
 
-  // para usar con el evento onClick en boton 
+  // para usar con el evento onClick en boton
   // const handleClick = (e) => {
   //   e.preventDefault()
   //   const valor = inputRef.current.value
@@ -41,11 +44,16 @@ function App() {
     // const valor = inputRef.current.value
     // otra forma de recuperar este valor es con el evento onSubmit nativo de los formularios
     // para no depender de React y para no tener que agregar demasiadas referencias
-    const fields = new window.FormData(e.target)
-    const valor = fields.get('searcher')
+    // const fields = new window.FormData(e.target)
+    // const valor = fields.get('searcher')
     // cuando se tienen más de un input, por ejemplo, es mejor hacer un objeto
-    const inputs = Object.fromEntries(fields)
-    console.log({ valor, inputs})
+    // const inputs = Object.fromEntries(fields)
+    console.log({ query })
+  }
+
+  const handleChange = (e) => {
+    setQuery(e.target.value)
+    console.log(query)
   }
 
   return (
@@ -54,9 +62,16 @@ function App() {
         <h1>Buscador de Peliculas</h1>
         <form className='form' onSubmit={handleSubmit}>
           {/* <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' ref={inputRef}/> */}
-          <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' name='searcher'/>
+          {/* <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' name='searcher'/> */}
           {/* una buena practica es que al tener un form se use el evento onSubmit en lugar de onClick */}
           {/* <button type='submit' onClick={handleClick}>Buscar</button> */}
+          <input
+            type='text'
+            placeholder='Avengers, Harry Potter, Toy Story ...'
+            name={'query'}
+            onChange={handleChange} 
+            value={query}
+          />
           <button type='submit'>Buscar</button>
         </form>
       </header>
