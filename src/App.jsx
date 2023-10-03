@@ -3,7 +3,27 @@ import { useState } from 'react'
 import './App.css'
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/Movies'
+import { useEffect } from 'react'
 // import { ListOfMovies, NoResults } from './components/Movies'
+
+function useSearch() {
+  const [query, setQuery] = useState('')
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (query.trim() === '') {
+      setError('Proporciona un nombre de pelicula')
+      return
+    }
+    if (query.trim().length < 3) {
+      setError('Proporciona al menos 3 caracteres')
+      return
+    }
+    setError(null)
+  }, [query])
+
+  return { query, setQuery, error }
+}
 
 function App() {
   // Se podría hacer también de esta forma pero lo mejor sería que fueran componentes
@@ -28,9 +48,9 @@ function App() {
   //   )}
 
   const { movies } = useMovies()
+  const { query, setQuery, error } = useSearch()
   // const inputRef = useRef()
   // se crea un estado para asigarle el valor del input y usar form de forma controlada
-  const [query, setQuery] = useState()
 
   // para usar con el evento onClick en boton
   // const handleClick = (e) => {
@@ -53,7 +73,6 @@ function App() {
 
   const handleChange = (e) => {
     setQuery(e.target.value)
-    console.log(query)
   }
 
   return (
@@ -69,9 +88,14 @@ function App() {
             type='text'
             placeholder='Avengers, Harry Potter, Toy Story ...'
             name={'query'}
-            onChange={handleChange} 
+            onChange={handleChange}
             value={query}
+            style={{
+              border: '1px solid transparent',
+              borderColor: error ? 'red' : 'initial',
+            }}
           />
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           <button type='submit'>Buscar</button>
         </form>
       </header>
