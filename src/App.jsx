@@ -4,13 +4,21 @@ import './App.css'
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/Movies'
 import { useEffect } from 'react'
+import { useRef } from 'react'
 // import { ListOfMovies, NoResults } from './components/Movies'
 
 function useSearch() {
   const [query, setQuery] = useState('')
   const [error, setError] = useState(null)
+  // en este caso el useRef se esta usando como bandera para saber si el input no se ha usado,
+  // ya que no pierde su valor con cada renderizado 
+  const notUsed = useRef(true)
 
   useEffect(() => {
+    if (notUsed.current) {
+      notUsed.current = query === ''
+      return
+    }
     if (query.trim() === '') {
       setError('Proporciona un nombre de pelicula')
       return
@@ -95,8 +103,8 @@ function App() {
               borderColor: error ? 'red' : 'initial',
             }}
           />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
           <button type='submit'>Buscar</button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
       </header>
       <main>

@@ -4,7 +4,7 @@
  * if a system-wide theme preference is set on the user's device.
  */
 
-:root {
+ :root {
   --background-body: #fff;
   --background: #efefef;
   --background-alt: #f7f7f7;
