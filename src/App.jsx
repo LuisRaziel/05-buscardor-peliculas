@@ -55,8 +55,8 @@ function App() {
   //     <p className='movies-error'>No se encontraron resultados</p>
   //   )}
 
-  const { movies } = useMovies()
   const { query, setQuery, error } = useSearch()
+  const { movies, getMovies } = useMovies({query})
   // const inputRef = useRef()
   // se crea un estado para asigarle el valor del input y usar form de forma controlada
 
@@ -77,6 +77,7 @@ function App() {
     // cuando se tienen más de un input, por ejemplo, es mejor hacer un objeto
     // const inputs = Object.fromEntries(fields)
     console.log({ query })
+    getMovies()
   }
 
   const handleChange = (e) => {
