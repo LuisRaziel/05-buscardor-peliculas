@@ -11,7 +11,7 @@ function useSearch() {
   const [query, setQuery] = useState('')
   const [error, setError] = useState(null)
   // en este caso el useRef se esta usando como bandera para saber si el input no se ha usado,
-  // ya que no pierde su valor con cada renderizado 
+  // ya que no pierde su valor con cada renderizado
   const notUsed = useRef(true)
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function App() {
   //   )}
 
   const { query, setQuery, error } = useSearch()
-  const { movies, getMovies } = useMovies({query})
+  const { movies, getMovies, loading } = useMovies({ query })
   // const inputRef = useRef()
   // se crea un estado para asigarle el valor del input y usar form de forma controlada
 
@@ -130,7 +130,7 @@ function App() {
           // para aqui solo renderizar el componente resultante
           // hasMovies ? <ListOfMovies movies={movies} /> : <NoResults />
         }
-        <Movies movies={movies} />
+        {loading ? <p>Cargando...</p> : <Movies movies={movies} />}
       </main>
     </div>
   )
