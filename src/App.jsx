@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import './App.css'
 import { Movies } from './components/Movies'
-import { useMovies } from './hooks/Movies'
+import { useMovies } from './hooks/useMovies'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 // import { ListOfMovies, NoResults } from './components/Movies'
