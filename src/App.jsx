@@ -55,8 +55,9 @@ function App() {
   //     <p className='movies-error'>No se encontraron resultados</p>
   //   )}
 
+  const [sort, setSort] = useState(false)
   const { query, setQuery, error } = useSearch()
-  const { movies, getMovies, loading } = useMovies({ query })
+  const { movies, getMovies, loading } = useMovies({ query, sort })
   // const inputRef = useRef()
   // se crea un estado para asigarle el valor del input y usar form de forma controlada
 
@@ -84,6 +85,10 @@ function App() {
     setQuery(e.target.value)
   }
 
+  const handleSort = () => {
+    setSort(!sort)
+  }
+
   return (
     <div className='page'>
       <header>
@@ -93,6 +98,7 @@ function App() {
           {/* <input type='text' placeholder='Star Wars, Toy Story, Avengers ...' name='searcher'/> */}
           {/* una buena practica es que al tener un form se use el evento onSubmit en lugar de onClick */}
           {/* <button type='submit' onClick={handleClick}>Buscar</button> */}
+          <input type='checkbox' checked={sort} onChange={handleSort} />
           <input
             type='text'
             placeholder='Avengers, Harry Potter, Toy Story ...'
