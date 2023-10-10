@@ -8,26 +8,30 @@ export function useMovies({ query, sort }) {
   const [error, setError] = useState(null)
   const previusQuery = useRef(query)
 
-  const getMovies = async () => {
-    if (query === previusQuery.current) return
-    try {
-      setLoading(true)
-      setError(null)
-      previusQuery.current = query
-      const movies = await searchMovies({ query })
-      setMovies(movies)
-    } catch (error) {
-      setError(error.message)
-    } finally {
-      setLoading(false)
+  const getMovies = useMemo(() => {
+    return async (query) => {
+      if (query === previusQuery.current) return
+      try {
+        setLoading(true)
+        setError(null)
+        previusQuery.current = query
+        const movies = await searchMovies({ query })
+        setMovies(movies)
+      } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+  }, [])
 
   // const getSortedMovies = sort ? [...movies].sort((a, b) => a.title.localeCompare(b.title)) : movies
 
   const sortedMovies = useMemo(() => {
     console.log('useMemo')
-    return sort ? [...movies].sort((a, b) => a.title.localeCompare(b.title)) : movies
+    return sort
+      ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+      : movies
   }, [sort, movies])
 
   return { movies: sortedMovies, getMovies, loading, error }

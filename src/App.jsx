@@ -78,7 +78,7 @@ function App() {
     // cuando se tienen más de un input, por ejemplo, es mejor hacer un objeto
     // const inputs = Object.fromEntries(fields)
     console.log({ query })
-    getMovies()
+    getMovies({ query })
   }
 
   const handleChange = (e) => {
