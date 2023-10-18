@@ -2,26 +2,43 @@ import { useState } from 'react'
 import { searchMovies } from '../services/movies'
 import { useRef } from 'react'
 import { useMemo } from 'react'
+import { useCallback } from 'react'
 export function useMovies({ query, sort }) {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const previusQuery = useRef(query)
 
-  const getMovies = useMemo(() => {
-    return async (query) => {
-      if (query === previusQuery.current) return
-      try {
-        setLoading(true)
-        setError(null)
-        previusQuery.current = query
-        const movies = await searchMovies({ query })
-        setMovies(movies)
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false)
-      }
+  // const getMovies = useMemo(() => {
+  //   return async (query) => {
+  //     if (query === previusQuery.current) return
+  //     try {
+  //       setLoading(true)
+  //       setError(null)
+  //       previusQuery.current = query
+  //       const movies = await searchMovies({ query })
+  //       setMovies(movies)
+  //     } catch (error) {
+  //       setError(error.message)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+  // }, [])
+
+  const getMovies = useCallback(async (query) => {
+    if (query === previusQuery.current) return
+    try {
+      setLoading(true)
+      setError(null)
+      previusQuery.current = query
+      console.log(query)
+      const movies = await searchMovies({ query })
+      setMovies(movies)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
     }
   }, [])
 
@@ -36,3 +53,4 @@ export function useMovies({ query, sort }) {
 
   return { movies: sortedMovies, getMovies, loading, error }
 }
+ 

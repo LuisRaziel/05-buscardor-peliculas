@@ -5,6 +5,8 @@ import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import { useEffect } from 'react'
 import { useRef } from 'react'
+import debounce from 'just-debounce-it'
+import { useCallback } from 'react'
 // import { ListOfMovies, NoResults } from './components/Movies'
 
 function useSearch() {
@@ -68,6 +70,16 @@ function App() {
   //   console.log(valor)
   // }
 
+  const debounceSetGetMovies = useCallback(
+    (search) => {
+      debounce(() => {
+        console.log(search)
+        getMovies(search)
+      }, 500)
+    },
+    [getMovies]
+  )
+
   const handleSubmit = (e) => {
     e.preventDefault()
     // const valor = inputRef.current.value
@@ -82,7 +94,10 @@ function App() {
   }
 
   const handleChange = (e) => {
-    setQuery(e.target.value)
+    const newSearch = e.target.value
+    console.log(newSearch)
+    setQuery(newSearch)
+    debounceSetGetMovies(newSearch)
   }
 
   const handleSort = () => {
